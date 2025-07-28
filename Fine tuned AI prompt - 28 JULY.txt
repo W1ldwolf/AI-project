@@ -1,0 +1,98 @@
+I need you to create the below components as per instructions.
+
+1. Environment Configuration details
+
+Instructions: 
+
+Use the file D:\Apps\AI project\Deployment\db_config.env containing below parameters for the deployment. The script should only read the parameters for the deployment and it should not store any data.
+ORACLE_USER=your_username
+ORACLE_PASSWORD=your_password
+ORACLE_TNS=your_tns_alias
+ORACLE_SCHEMA=your_schema 
+
+2. Script Categorization & Execution Order
+
+Instructions: 
+
+Ensure that the below objects are created in the correct order to resolve dependencies.
+01_tables/
+02_indexes/
+03_sequences/
+04_views/
+05_types/
+06_packages/
+07_package_bodies/
+08_triggers/
+09_synonyms/
+
+Optional:
+pre_deployment/: Backup or validation scripts
+post_deployment/: Grants, logging, cleanups.
+
+
+3. Transaction Management
+
+Instructions:
+
+Wrap related DDL/DML in transactions when possible.
+Use WHENEVER SQLERROR EXIT in SQL*Plus or SQLcl to stop on failure.
+Log execution output and errors clearly.
+Use save points in large scripts.
+
+4.Idempotency Handling
+
+Instructions:
+
+Your scripts should be re-runnable safely.
+Check existence before CREATE or DROP (e.g., SELECT * FROM user_tables WHERE table_name = 'MY_TABLE').
+Use CREATE OR REPLACE for views, procedures, packages.
+Drop and recreate when needed (carefully).
+
+5.Deployment Tooling & Execution
+
+Instructions:
+
+The script should run based on SQL*Plus and deploy all the components from  warehouse_order_management.sql, warehouse_order_management_with_orderid_limit.sql to Oracle database one by one.
+
+6.Backup and Rollback
+
+Instructions:
+
+Backup current schema (expdp, logical export, or Git snapshot)
+Include Optional rollback scripts (DROP newly created objects or restore from backup)
+
+7. User Permissions & Grants
+
+Instructions:
+
+Ensure the deployment user has CREATE, ALTER, DROP, EXECUTE privileges
+GRANT permissions where required
+Create grants script to apply to application/service users
+
+8.Logging and Auditing
+
+
+Instructions:
+
+Log What script was run, When, By whom, On which DB.
+Save logs per object or per module.
+
+Optional: Insert logs into an audit table
+
+9. Folder structure for deployment:
+
+Instructions:
+
+Directory Structure should be created or overlapped in the location D:\Apps\AI project\Deployment as below
+
+/oracle-deployment-currentdate/
+├── config/
+│   └── db_config_dev.env
+├── scripts/
+│   ├── 01_tables/
+│   ├── 02_views/
+│   ├── 06_packages/
+├── logs/
+├── run_deploy.sh
+└── rollback/
+
